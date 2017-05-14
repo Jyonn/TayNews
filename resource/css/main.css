@@ -1,0 +1,301 @@
+body {
+	background: #fff;
+}
+
+div {
+	outline: none;
+}
+
+.press {
+	cursor: pointer;
+}
+
+.slow {
+	transition: 0.2s;
+}
+.slow:hover {
+	transition: 0.2s;
+}
+
+.round-btn {
+	letter-spacing: 2px;
+	height: 40px;
+	line-height: 40px;
+	vertical-align: middle;
+	border-radius: 40px;
+	padding: 10px 30px;
+	display: inline;
+}
+
+input {
+	background: none;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+	border-bottom: 1px solid #eee;
+	font-size: 18px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	outline: none;
+	height: 40px;
+}
+input:hover {
+	border-bottom: 1px solid #0887d7;
+}
+input:focus {
+	border-bottom: 1px solid #0887d7;
+}
+
+#search-container {
+	display: none;
+	position: fixed;
+	top: 80px;
+	left: 0;
+	width: 100%;
+	height: 80px;
+	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
+	background: #fff;
+	z-index: 1;
+}
+	#search-btn {
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		line-height: 18px;
+		border: 2px solid #18a3fa;
+		background: #18a3fa;
+		color: #fff;
+	}
+	#search-btn:hover {
+		border: 2px solid #0887d7;
+		background: #0887d7;
+	}
+	#search-input {
+		position: absolute;
+		top: 20px;
+		left: 30px;
+		width: calc(100% - 200px);
+	}
+	
+#login-container {	display: none;
+	position: fixed;
+	top: 80px;
+	left: 0;
+	width: 100%;
+	height: 80px;
+	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
+	background: #fff;
+	z-index: 1;
+}
+	#login-btn {
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		line-height: 18px;
+		border: 2px solid #18a3fa;
+		background: #18a3fa;
+		color: #fff;
+	}
+	#login-btn:hover {
+		border: 2px solid #0887d7;
+		background: #0887d7;
+	}
+	#email-input {
+		position: absolute;
+		top: 20px;
+		left: 30px;
+		width: calc((100% - 200px) / 2 - 50px);
+	}
+	#password-input {
+		position: absolute;
+		top: 20px;
+		left: calc((100% - 200px) / 2 + 50px);
+		width: calc((100% - 200px) / 2 - 50px);
+	}
+	
+#user-container {
+	display: none;
+	position: fixed;
+	top: 80px;
+	left: 300px;
+	width: 160px;
+	height: 80px;
+	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
+	background: #fff;
+	z-index: 1;
+}
+	#user-container div {
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 18px;
+	}
+	#user-container div:hover {
+		background: #5b5e63;
+		color: #fff;
+	}
+	
+	
+.navigation {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 80px;
+	background: #3b3e43;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+}
+
+	.navigation img {
+		position: absolute;
+		width: 80px;
+		height: 80px;
+		margin: 0;
+		padding: 0;
+	}
+	.navigation .nav-button {
+		position: absolute;
+		width: 120px;
+		height: 80px;
+		text-align: center;
+		vertical-align: middle;
+		margin: 0;
+		padding: 0;
+		top: 0;
+		line-height: 80px;
+		color: #fff;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	.navigation .nav-button:hover {
+		background: #fff;
+		color: #000;
+	}
+	#nav-home {
+		left: 80px;
+	}
+	#nav-search {
+		left: 200px;
+	}
+	#nav-user {
+		left: 320px;
+	}
+	
+.channel-container {
+	position: absolute;
+	top: 180px;
+	left: 70px;
+	width: 120px;
+}
+	.channel-container .title {
+		font-size: 20px;
+		font-weight: bold;
+	}
+	.channel-container hr {
+		margin-top: 40px;
+		margin-bottom: 20px;
+		border-top:1px solid #ccc;
+	}
+		.channel-container .channel-list {
+			position: relative;
+		}
+		.channel-container label {
+			position: relative;
+			padding: 0;
+			height: 24px;
+			display: block;
+			vertical-align: middle;
+			line-height: 24px;
+			margin-bottom: 10px;
+		}
+		.channel-container label input {
+			position: absolute;
+			top: 2px;
+			margin: 0;
+			opacity: 0;
+			border: 0;
+			z-index: -1;
+		}
+		.channel-container label .checkbox-border {
+			position: absolute;
+			top: 2px;
+			width: 16px;
+			height: 16px;
+			line-height: 16px;
+			border: 1px solid #636465;
+			background-color: #fff;
+			margin: 0;
+			padding: 0;
+		}
+			.channel-container label .checkbox-border img {
+				width: 16px;
+				height: 16px;
+			}
+		.channel-container label .checkbox-value {
+			position: absolute;
+			top: 0;
+			left: 30px;
+			font-size: 16px;
+			margin: 0;
+			padding: 0;
+			letter-spacing: 2px;
+			display: block;
+		}
+		
+.news-container {
+	position: absolute;
+	top: 180px;
+	left: 250px;
+	width: calc(100% - 250px);
+}
+	.news-container .news-item {
+		height: 400px;
+		text-align: center;
+	}
+	.news-container .news-item:hover {
+		background: #333;
+		color: #eee;
+	}
+		.news-container .news-item img {
+			height: 100px;
+			width: 100px;
+			margin-top: 30px;
+		}
+		.news-container .news-item .channel {
+			margin-top: 20px;
+			margin-bottom: 10px;
+			font-size: 16px;
+			font-weight: bold;
+			letter-spacing: 2px;
+		}
+		.news-container .news-item .title {
+			margin-top: 10px;
+			font-size: 16px;
+			padding: 0 40px;
+			letter-spacing: 2px;
+			text-overflow: -o-ellipsis-lastline;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			max-height: 44px;
+		}
+		.news-container .news-item .publish-time {
+			color: #888;
+			margin-top: 10px;
+			margin-bottom: 30px;
+			letter-spacing: 2px;
+		}
+		.news-container .news-item .learn-more {
+			border: 2px solid #fff;
+			color: #fff;
+		}
+		.news-container .news-item .learn-more:hover {
+			background: #fff;
+			bolder-color: #fff;
+			color: #000;
+		}

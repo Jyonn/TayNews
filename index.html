@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="resource/css/main.css" rel="stylesheet">
+	<link href="resource/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="navigation">
+		<img src="resource/img/taynews.png">
+		<div class="nav-button slow press" id="nav-home">首页</div>
+		<div class="nav-button slow press" id="nav-search">检索</div>
+		<div class="nav-button slow press" id="nav-user"></div>
+	</div>
+	<div id="search-container" onfocus tabindex="22">
+		<input id="search-input" type="text" placeholder="请输入关键词" tabindex="20">
+		<div id="search-btn" class="round-btn press slow" onfocus tabindex="21">搜索新闻</btn></div>
+	</div>
+	<div id="login-container" onfocus tabindex="33">
+		<input id="email-input" type="text" placeholder="请输入邮箱" tabindex="30">
+		<input id="password-input" type="text" placeholder="请输入密码" tabindex="31">
+		<div id="login-btn" class="round-btn press slow" onfocus tabindex="32">登录</btn></div>
+	</div>
+	<div id="user-container" onfocus tabindex="42">
+		<div id="like-btn" class="press" onfocus tabindex="40">喜欢</div>
+		<div id="logout-btn" class="press" onfocus tabindex="41">登出</div>
+	</div>
+	<div class="channel-container">
+		<div class="title">新闻频道</div>
+		<hr/>
+		<div class="channel-list"></div>
+	</div>
+	<div class="news-container"></div>
+	<script src="resource/js/jquery.min.js"></script>
+	<script src="resource/js/jquery.json.js"></script>
+	<script src="resource/js/main.js"></script>
+</body>
+</html>
