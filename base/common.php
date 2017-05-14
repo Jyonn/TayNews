@@ -7,7 +7,7 @@
 	}
 	
 	/*DEAL WITH ERROR*/
-	class Error {
+	class MyError {
 		var $OK = 0;
 		var $NOT_FOUND_ERROR_ID = 1;
 		var $NEED_PARAMS = 2;
@@ -24,7 +24,7 @@
 		var $FAILED_GET_READER = 1008;
 		var $FAILED_GET_FAVORITE = 1009;
 	}
-	$Error = new Error();
+	$Error = new MyError();
 	$GLOBALS['error'] = $Error;
 	
 	$GLOBALS['error_table'] = array(
