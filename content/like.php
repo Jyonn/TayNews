@@ -1,5 +1,5 @@
 <?php
-	require "../base/common.php";
+	require_once "../base/common.php";
 	
 	$raw_post = file_get_contents("php://input");
 	$json = json_decode($raw_post);

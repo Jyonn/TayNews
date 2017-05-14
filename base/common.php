@@ -1,5 +1,5 @@
 <?php
-	require "sql.php";
+	require_once "sql.php";
 	
 	/*RESPONSE*/
 	function response($code="0", $msg="ok", $body=null) {

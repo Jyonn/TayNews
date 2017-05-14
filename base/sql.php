@@ -1,5 +1,5 @@
 <?php
-	require "conn.php";
+	require_once "conn.php";
 	
 	class Channel {
 		public $id = -1;

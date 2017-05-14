@@ -1,5 +1,5 @@
 <?php
-	require "../base/common.php";
+	require_once "../base/common.php";
 	
 	$channel_list = news_sql::select_channel_list();
 	

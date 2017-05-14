@@ -1,5 +1,5 @@
 <?php
-	require "common.php";
+	require_once "common.php";
 	
 	function grab_channel() {
 		$url = 'https://api.jisuapi.com/news/channel?appkey=f19ded98c0f37a29';
