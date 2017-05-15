@@ -102,7 +102,7 @@ function change_channel_state(channel) {
 				border.empty();
 		}
 	}
-	refresh_news_list(global_token, news_arr);
+	get_news();
 	check_scroll();
 }
 	
@@ -142,6 +142,8 @@ function get_info() {
 }
 
 function check_scroll() {
+	if (global_token == 'random_poem')
+		return;
 	if ($(document).height() - $(window).scrollTop() - $(window).height() < 1000)
 		get_news()
 }
@@ -160,10 +162,12 @@ function refresh_news_list(token, news_arr) {
 		return;
 	news_container.empty();
 	
+	var count = 0;
 	for (var i = 0; i < news_arr.length; i++)
 		for (var j = 0; j < channel_arr.length; j++)
 			if (news_arr[i].channel == channel_arr[j].id) {
 				if (channel_arr[j].state) {
+					count ++;
 					var html =	'<div class="news-item slow col-md-4 col-sm-6 col-xs-12">' + 
 								'	<img src="' + news_arr[i].pic + '">' + 
 								'	<div class="channel">' + channel_arr[j].channel + '</div>' + 
@@ -176,12 +180,11 @@ function refresh_news_list(token, news_arr) {
 				}
 				break;
 			}
+	if (count == 0)
+		random_poem();
 }
 
 function get_news() {
-	if (is_geting_news)
-		return;
-	is_geting_news = true;
 	var post = {
 		count: 10,
 		channel_list: []
@@ -210,9 +213,6 @@ function get_news() {
 			news_arr.push(new News(news_list[i]));
 		}
 		refresh_news_list(token, news_arr);
-		is_geting_news = false;
-	}, function() {
-		is_geting_news = false;
 	});
 }
 
@@ -431,8 +431,23 @@ function set_nav_listeners() {
 	});
 }
 
+function random_poem() {
+	global_token = 'random_poem';
+	postJSON('content/random.php', '', function(response) {
+		content = Base64.decode(response.body.content);
+		writer = response.body.writer_name;
+		work = response.body.work_name;
+		news_container.empty();
+		var html =	'<div id="poem-title">' + work + '</div>' + 
+					'<div id="poem-writer">文 / ' + writer + '</div>' + 
+					'<textarea id="poem-content" readonly>' + content + '</textarea>';
+		news_container.html(html);
+		var poem_content = document.getElementById("poem-content");
+		poem_content.style.height = poem_content.scrollHeight + 'px';
+	});
+}
+
 $(document).ready(function() {
 	get_info();
-	
 	set_nav_listeners();
 });

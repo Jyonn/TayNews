@@ -376,3 +376,29 @@ input:focus {
 			bolder-color: #fff;
 			color: #000;
 		}
+
+		#poem-title {
+			font-size: 30px;
+			text-align: center;
+			font-weight: bolder;
+			letter-spacing: 2px;
+			margin: 0 100px 10px;
+		}
+		#poem-writer {
+			font-size: 20px;
+			text-align: right;
+			font-weight: bolder;
+			letter-spacing: 2px;
+			margin: 0 100px 50px;
+		}
+		#poem-content {
+			background: none;
+			outline: none;
+			border: none;
+			width: 100%;
+			text-align: center;
+			letter-spacing: 2px;
+			font-size: 20px;
+			line-height: 30px;
+			margin-bottom: 50px;
+		}
