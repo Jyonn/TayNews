@@ -2,6 +2,10 @@ body {
 	background: #fff;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 div {
 	outline: none;
 }
@@ -80,17 +84,23 @@ input:focus {
 #login-container {	display: none;
 	position: fixed;
 	top: 80px;
-	left: 0;
-	width: 100%;
-	height: 80px;
+	right: 0;
+	width: 400px;
+	height: 170px;
 	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
 	background: #fff;
 	z-index: 1;
 }
+	#login-hint {
+		position: absolute;
+		top: 140px;
+		left: 30px;
+		color: #d77;
+	}
 	#login-btn {
 		position: absolute;
 		right: 20px;
-		top: 20px;
+		top: 80px;
 		line-height: 18px;
 		border: 2px solid #18a3fa;
 		background: #18a3fa;
@@ -102,23 +112,85 @@ input:focus {
 	}
 	#email-input {
 		position: absolute;
-		top: 20px;
+		top: 30px;
 		left: 30px;
-		width: calc((100% - 200px) / 2 - 50px);
+		width: calc(100% - 50px);
 	}
 	#password-input {
 		position: absolute;
-		top: 20px;
-		left: calc((100% - 200px) / 2 + 50px);
-		width: calc((100% - 200px) / 2 - 50px);
+		top: 90px;
+		left: 30px;
+		width: calc(100% - 50px);
+	}
+	
+#register-container {
+	display: none;
+	position: fixed;
+	top: 80px;
+	right: 0;
+	width: 400px;
+	height: 230px;
+	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
+	background: #fff;
+	z-index: 1;
+}
+	#register-hint {
+		position: absolute;
+		top: 200px;
+		left: 30px;
+		color: #d77;
+	}
+	#email-r-input {
+		position: absolute;
+		top: 30px;
+		left: 30px;
+		width: calc(100% - 50px);
+	}
+	#captcha-r-input {
+		position: absolute;
+		top: 90px;
+		left: 30px;
+		width: calc(100% - 50px);
+	}
+	#send-captcha-btn {
+		position: absolute;
+		right: 20px;
+		top: 80px;
+		line-height: 18px;
+		border: 2px solid #18a3fa;
+		background: #18a3fa;
+		color: #fff;
+	}
+	#send-captcha-btn:hover {
+		border: 2px solid #0887d7;
+		background: #0887d7;
+	}
+	#password-r-input {
+		position: absolute;
+		top: 150px;
+		left: 30px;
+		width: calc(100% - 50px);
+	}
+	#register-btn {
+		position: absolute;
+		right: 20px;
+		top: 140px;
+		line-height: 18px;
+		border: 2px solid #18a3fa;
+		background: #18a3fa;
+		color: #fff;
+	}
+	#register-btn:hover {
+		border: 2px solid #0887d7;
+		background: #0887d7;
 	}
 	
 #user-container {
 	display: none;
 	position: fixed;
 	top: 80px;
-	left: 300px;
-	width: 160px;
+	right: 0;
+	width: 120px;
 	height: 80px;
 	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
 	background: #fff;
@@ -181,7 +253,11 @@ input:focus {
 		left: 200px;
 	}
 	#nav-user {
-		left: 320px;
+		right: 0;
+	}
+	#nav-register {
+		display: none;
+		right: 120px;
 	}
 	
 .channel-container {

@@ -12,19 +12,29 @@
 		<div class="nav-button slow press" id="nav-home">首页</div>
 		<div class="nav-button slow press" id="nav-search">检索</div>
 		<div class="nav-button slow press" id="nav-user"></div>
+		<div class="nav-button slow press" id="nav-register">注册</div>
 	</div>
-	<div id="search-container" onfocus tabindex="22">
+	<div id="search-container" class="" onfocus tabindex="22">
 		<input id="search-input" type="text" placeholder="请输入关键词" tabindex="20">
-		<div id="search-btn" class="round-btn press slow" onfocus tabindex="21">搜索新闻</btn></div>
+		<div id="search-btn" class="round-btn press slow" onfocus tabindex="21">搜索新闻</div>
 	</div>
 	<div id="login-container" onfocus tabindex="33">
 		<input id="email-input" type="text" placeholder="请输入邮箱" tabindex="30">
-		<input id="password-input" type="text" placeholder="请输入密码" tabindex="31">
-		<div id="login-btn" class="round-btn press slow" onfocus tabindex="32">登录</btn></div>
+		<input id="password-input" type="password" placeholder="请输入密码" tabindex="31">
+		<div id="login-btn" class="round-btn press slow" onfocus tabindex="32">登录</div>
+		<div id="login-hint"></div>
 	</div>
 	<div id="user-container" onfocus tabindex="42">
 		<div id="like-btn" class="press" onfocus tabindex="40">喜欢</div>
 		<div id="logout-btn" class="press" onfocus tabindex="41">登出</div>
+	</div>
+	<div id="register-container" onfocus tabindex="55">
+		<input id="email-r-input" type="text" placeholder="请输入邮箱" tabindex="50">
+		<input id="captcha-r-input" type="text" placeholder="请输入验证码" tabindex="51">
+		<input id="password-r-input" type="password" placeholder="请输入密码" tabindex="52">
+		<div id="send-captcha-btn" class="round-btn press slow" onfocus tabindex="53">获取验证码</div>
+		<div id="register-btn" class="round-btn press slow" onfocus tabindex="54">注册新用户</div>
+		<div id="register-hint"></div>
 	</div>
 	<div class="channel-container">
 		<div class="title">新闻频道</div>

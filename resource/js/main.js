@@ -26,6 +26,38 @@ function Channel(channel) {
 
 var channel_arr = new Array();
 
+function email_captcha_loop(param_package) {
+    if (param_package.num <= 0) {
+        clear_interval(param_package);
+        return;
+    }
+    param_package.btn.text(param_package['num'] + '秒后重发');
+    param_package.num--;
+}
+
+function _email_captcha_loop(param_package) {
+    return function () {
+        email_captcha_loop(param_package)
+    }
+}
+
+function clear_interval(param_package) {
+    clearInterval(parseInt(param_package.clock.clock));
+    param_package.btn.attr("disabled", false);
+    param_package.btn.text('获取验证码');
+}
+
+function set_clock_interval(btn) {
+    const param_package = {
+        num: 30,
+        btn: btn,
+        clock: {clock: ''}
+    };
+    btn.attr("disabled", true);
+    param_package.clock.clock = setInterval(_email_captcha_loop(param_package), 1000);
+    return param_package
+}
+
 function get_format_time(timestamp) {
 	if (timestamp == false)
 		return '';
@@ -80,11 +112,15 @@ function set_channel_item_listener() {
 		change_channel_state($(this));
 	});
 }
-	
+
+var news_container = $('.news-container');
+
 function get_info() {
 	postJSON('user/info.php', "", function(response) {
 		is_login = response.body.is_login;
 		nav_user.text(is_login ? '个人中心' : '登录');
+		if (!is_login)
+			nav_register.css('display', 'inherit');
 		channel_list.empty();
 		for (var i = 0; i < response.body.channel_state.length; i++) {
 			var item = response.body.channel_state[i],
@@ -96,11 +132,18 @@ function get_info() {
 			channel_arr.push(new Channel(item));
 		}
 		set_channel_item_listener();
+		
 		get_news();
+		
+		news_container.on('scroll', function () {
+			console.log('scroll');
+			if (this.scrollHeight - this.scrollTop - news_container.height() < 1000)
+				get_news();
+		});
+		
+		check_scroll();
 	});
 }
-
-var news_container = $('.news-container');
 
 function learn_more(index) {
 	if (is_login) {
@@ -135,6 +178,9 @@ function refresh_news_list(token, news_arr) {
 }
 
 function get_news() {
+	if (is_geting_news)
+		return;
+	is_geting_news = true;
 	var post = {
 		count: 10,
 		channel_list: []
@@ -163,6 +209,9 @@ function get_news() {
 			news_arr.push(new News(news_list[i]));
 		}
 		refresh_news_list(token, news_arr);
+		is_geting_news = false;
+	}, function() {
+		is_geting_news = false;
 	});
 }
 
@@ -170,6 +219,7 @@ function get_news() {
 
 function check_scroll() {
     news_container.each(function () {
+		console.log('check');
         if (this.scrollHeight - this.scrollTop - news_container.height() < 1000)
             get_news();
     })
@@ -187,7 +237,45 @@ var nav_search = $('#nav-search'),
 	user_container = $('#user-container'),
 	like_btn = $('#like-btn'),
 	logout_btn = $('#logout-btn'),
-	nav_home = $('#nav-home');
+	nav_home = $('#nav-home'),
+	nav_register = $('#nav-register'),
+	register_container = $('#register-container'),
+	email_r_input = $('#email-r-input'),
+	captcha_r_input = $('#captcha-r-input'),
+	password_r_input = $('#password-r-input'),
+	send_captcha_btn = $('#send-captcha-btn'),
+	register_btn = $('#register-btn');
+
+function not_focus_fadeout(fade_out_mask, focus_list) {
+	setTimeout(function(){
+		for (var i = 0; i < focus_list.length; i++)
+			if (document.activeElement == document.getElementById(focus_list[i])) {
+				return;
+			}
+		fade_out_mask.fadeOut('250');
+	}, 100);
+	return;
+}
+
+function not_focus_fadeout_for_register() {
+	not_focus_fadeout(register_container, 
+		['email-r-input', 'captcha-r-input', 'password-r-input', 'send-captcha-btn', 'register-btn', 'register-container']);
+}
+
+function not_focus_fadeout_for_search() {
+	not_focus_fadeout(search_container, ['search-input', 'search-btn', 'search-container']);
+}
+
+function not_focus_fadeout_for_login() {
+	not_focus_fadeout(login_container, ['email-input', 'login-btn', 'password-input', 'login-container']);
+}
+
+function not_focus_fadeout_for_user() {
+	not_focus_fadeout(user_container, ['like-btn', 'logout-btn']);
+}
+
+var is_sending_captcha = false,
+	is_geting_news = false;
 
 function set_nav_listeners() {	
 	nav_search.on('click', function() {
@@ -195,32 +283,9 @@ function set_nav_listeners() {
 		search_input.focus();
 	});
 	
-	search_input.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('search-btn') &&
-				document.activeElement != document.getElementById('search-container')) {
-				search_container.fadeOut('250');
-			}
-		}, 100);
-	});
-	
-	search_btn.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('search-input') &&
-				document.activeElement != document.getElementById('search-container')) {
-				search_container.fadeOut('250');
-			}
-		}, 100);
-	});
-	
-	search_container.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('search-input') &&
-				document.activeElement != document.getElementById('search-btn')) {
-				search_container.fadeOut('250');
-			}
-		}, 100);
-	});
+	search_input.on('blur', not_focus_fadeout_for_search);
+	search_btn.on('blur', not_focus_fadeout_for_search);
+	search_container.on('blur', not_focus_fadeout_for_search);
 	
 	nav_user.on('click', function() {
 		if (!is_login) {
@@ -233,79 +298,52 @@ function set_nav_listeners() {
 		}
 	});
 	
-	like_btn.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('logout-btn')) {
-				user_container.fadeOut('250');
-			}
-	   }, 100);
+	like_btn.on('blur', not_focus_fadeout_for_user);
+	logout_btn.on('blur', not_focus_fadeout_for_user);
+	
+	email_input.on('blur', not_focus_fadeout_for_login);
+	password_input.on('blur', not_focus_fadeout_for_login);
+	login_btn.on('blur', not_focus_fadeout_for_login);
+	login_container.on('blur', not_focus_fadeout_for_login);
+	
+	nav_home.on('click', function() {
+		document.location.reload();
 	});
 	
-	logout_btn.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('like-btn')) {
-				user_container.fadeOut('250');
-			}
-	   }, 100);
+	nav_register.on('click', function() {
+		register_container.fadeIn('250');
+		email_r_input.focus();
 	});
 	
-	email_input.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('login-btn') &&
-				document.activeElement != document.getElementById('password-input') &&
-				document.activeElement != document.getElementById('login-container')) {
-				login_container.fadeOut('250');
-			}
-	   }, 100);
+	email_r_input.on('blur', not_focus_fadeout_for_register);
+	password_r_input.on('blur', not_focus_fadeout_for_register);
+	captcha_r_input.on('blur', not_focus_fadeout_for_register);
+	send_captcha_btn.on('blur', not_focus_fadeout_for_register);
+	register_btn.on('blur', not_focus_fadeout_for_register);
+	register_container.on('blur', not_focus_fadeout_for_register);
+	
+	logout_btn.on('click', function() {
+		postJSON('user/logout.php', "", function(response) {
+			document.location.reload();
+		});
 	});
 	
-	password_input.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('login-btn') &&
-				document.activeElement != document.getElementById('email-input') &&
-				document.activeElement != document.getElementById('login-container')) {
-				login_container.fadeOut('250');
-			}
-		}, 100);
-	});
-	
-	login_btn.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('password-input') &&
-				document.activeElement != document.getElementById('email-input') &&
-				document.activeElement != document.getElementById('login-container')) {
-				login_container.fadeOut('250');
-			}
-		}, 100);
-	});
-	
-	login_container.on('blur', function() {
-		setTimeout(function(){
-			if (document.activeElement != document.getElementById('password-input') &&
-				document.activeElement != document.getElementById('email-input') &&
-				document.activeElement != document.getElementById('login-btn')) {
-				login_container.fadeOut('250');
-			}
-		}, 100);
-	});
-	
-	search_btn.on('click', function() {
+	login_btn.on('click', function() {
 		var post = {
-			keyword: $('#search-input').val()
+			email: email_input.val(),
+			pass: password_input.val()
 		},
-			json = $.toJSON(post);
-		var token = Math.random().toString(36).substr(2);
-			global_token = token;
-		var tmp_news_arr = new Array();
-		postJSON('content/search.php', json, function(response) {
-			var news_list = response.body;
-			for (var i = 0; i < news_list.length; i++) {
-				if (news_list[i].pic.length < 5)
-					news_list[i].pic = "resource/img/taynews.png";
-				tmp_news_arr.push(new News(news_list[i]));
+			json = $.toJSON(post),
+			login_hint = $('#login-hint');
+		login_hint.text('');
+		
+		postJSON('user/login.php', json, function(response) {
+			if (response.code == 0) {
+				document.location.reload();
 			}
-			refresh_news_list(token, tmp_news_arr);
-			login_container.fadeOut('250');
+			else {
+				login_hint.text(response.msg);
+			}
 		});
 	});
 	
@@ -340,27 +378,65 @@ function set_nav_listeners() {
 		});
 	});
 	
-	login_btn.on('click', function() {
+	search_btn.on('click', function() {
 		var post = {
-			email: email_input.val(),
-			pass: password_input.val()
+			keyword: $('#search-input').val()
 		},
 			json = $.toJSON(post);
-		postJSON('user/login.php', json, function(response) {
+		var token = Math.random().toString(36).substr(2);
+			global_token = token;
+		var tmp_news_arr = new Array();
+		postJSON('content/search.php', json, function(response) {
+			var news_list = response.body;
+			for (var i = 0; i < news_list.length; i++) {
+				if (news_list[i].pic.length < 5)
+					news_list[i].pic = "resource/img/taynews.png";
+				tmp_news_arr.push(new News(news_list[i]));
+			}
+			refresh_news_list(token, tmp_news_arr);
+			login_container.fadeOut('250');
+		});
+	});
+	
+	send_captcha_btn.on('click', function() {
+		if (is_sending_captcha)
+			return;
+		is_sending_captcha = true;
+		var post = {
+			email: email_r_input.val()
+		},
+			json = $.toJSON(post),
+			register_hint = $('#register-hint');
+		register_hint.text('');
+		var param_package = set_clock_interval(send_captcha_btn);
+		postJSON('user/email.php', json, function(response) {
+			if (response.code != 0) {
+                clear_interval(param_package);
+                register_hint.text(response.msg);
+            }
+			is_sending_captcha = false;
+		}, function() {
+			is_sending_captcha = false;
+		});
+	});
+	
+	register_btn.on('click', function() {
+		var post = {
+			code: captcha_r_input.val(),
+			pass: password_r_input.val()
+		},
+			json = $.toJSON(post),
+			register_hint = $('#register-hint');
+		register_hint.text('');
+		
+		postJSON('user/register.php', json, function(response) {
 			if (response.code == 0) {
 				document.location.reload();
 			}
+			else {
+				register_hint.text(response.msg);
+			}
 		});
-	});
-	
-	logout_btn.on('click', function() {
-		postJSON('user/logout.php', "", function(response) {
-			document.location.reload();
-		});
-	});
-	
-	nav_home.on('click', function() {
-		document.location.reload();
 	});
 }
 
@@ -368,11 +444,4 @@ $(document).ready(function() {
 	get_info();
 	
 	set_nav_listeners();
-	
-	news_container.on('scroll', function () {
-        if (this.scrollHeight - this.scrollTop - news_container.height() < 1000)
-            get_news();
-    });
-	
-	check_scroll();
 });
