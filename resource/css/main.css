@@ -326,6 +326,7 @@ input:focus {
 	top: 180px;
 	left: 250px;
 	width: calc(100% - 250px);
+	overflow-y: scroll;
 }
 	.news-container .news-item {
 		height: 400px;

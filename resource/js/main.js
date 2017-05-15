@@ -135,14 +135,15 @@ function get_info() {
 		
 		get_news();
 		
-		news_container.on('scroll', function () {
-			console.log('scroll');
-			if (this.scrollHeight - this.scrollTop - news_container.height() < 1000)
-				get_news();
-		});
-		
-		check_scroll();
+		window.onscroll = function() {
+			check_scroll();
+		};
 	});
+}
+
+function check_scroll() {
+	if ($(document).height() - $(window).scrollTop() - $(window).height() < 1000)
+		get_news()
 }
 
 function learn_more(index) {
@@ -213,16 +214,6 @@ function get_news() {
 	}, function() {
 		is_geting_news = false;
 	});
-}
-
-
-
-function check_scroll() {
-    news_container.each(function () {
-		console.log('check');
-        if (this.scrollHeight - this.scrollTop - news_container.height() < 1000)
-            get_news();
-    })
 }
 
 var nav_search = $('#nav-search'),
