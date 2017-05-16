@@ -403,3 +403,29 @@ input:focus {
 			margin-bottom: 50px;
 			color: #666;
 		}
+		
+.float-container {
+	position: fixed;
+	bottom: 50px;
+	right: 50px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	text-align: center;
+	transition: 0.5s;
+	background: #eee;
+	box-shadow: 2px 3px 24px rgba(0,0,0,.24);
+}
+.float-container:hover {
+	background: #327373;
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+	transform: rotate(360deg);
+	transition: 0.5s;
+}
+	.float-container img {
+		margin-top: 10px;
+		width: 30px;
+		height: 30px;
+		border-radius: 50px;
+	}

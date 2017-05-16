@@ -312,6 +312,29 @@ function set_nav_listeners() {
 	send_captcha_btn.on('blur', not_focus_fadeout_for_register);
 	register_btn.on('blur', not_focus_fadeout_for_register);
 	register_container.on('blur', not_focus_fadeout_for_register);
+}
+
+function random_poem() {
+	global_token = 'random_poem';
+	postJSON('content/random.php', '', function(response) {
+		content = Base64.decode(response.body.content);
+		writer = response.body.writer_name;
+		work = response.body.work_name;
+		news_container.empty();
+		var html =	'<div id="poem-title">' + work + '</div>' + 
+					'<div id="poem-writer">文 / ' + writer + '</div>' + 
+					'<textarea id="poem-content" readonly>' + content + '</textarea>';
+		news_container.html(html);
+		var poem_content = document.getElementById("poem-content");
+		poem_content.style.height = poem_content.scrollHeight + 'px';
+	});
+}
+
+var float_up = $('.float-container');
+
+$(document).ready(function() {
+	get_info();
+	set_nav_listeners();
 	
 	logout_btn.on('click', function() {
 		postJSON('user/logout.php', "", function(response) {
@@ -429,25 +452,8 @@ function set_nav_listeners() {
 			}
 		});
 	});
-}
-
-function random_poem() {
-	global_token = 'random_poem';
-	postJSON('content/random.php', '', function(response) {
-		content = Base64.decode(response.body.content);
-		writer = response.body.writer_name;
-		work = response.body.work_name;
-		news_container.empty();
-		var html =	'<div id="poem-title">' + work + '</div>' + 
-					'<div id="poem-writer">文 / ' + writer + '</div>' + 
-					'<textarea id="poem-content" readonly>' + content + '</textarea>';
-		news_container.html(html);
-		var poem_content = document.getElementById("poem-content");
-		poem_content.style.height = poem_content.scrollHeight + 'px';
+	
+	float_up.on('click', function() {
+		document.body.scrollTop = 0
 	});
-}
-
-$(document).ready(function() {
-	get_info();
-	set_nav_listeners();
 });
