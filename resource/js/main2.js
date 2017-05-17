@@ -63,9 +63,9 @@ function get_format_time(timestamp) {
 		return '';
 	var time = new Date(timestamp * 1000);
 	time_str = '';
-	if (time.getMonth() < 10)
+	if (time.getMonth()+1 < 10)
 		time_str += '0';
-	time_str += time.getMonth() + '/';
+	time_str += time.getMonth()+1 + '/';
 	if (time.getDate() < 10)
 		time_str += '0';
 	time_str += time.getDate() + ' ';
